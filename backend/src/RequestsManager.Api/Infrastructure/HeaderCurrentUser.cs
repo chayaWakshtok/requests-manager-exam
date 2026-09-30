@@ -15,8 +15,10 @@ public sealed class HeaderCurrentUser(IHttpContextAccessor accessor) : ICurrentU
     {
         get
         {
-            var value = accessor.HttpContext?.Request.Headers[HeaderName].ToString().Trim();
-            if (string.IsNullOrEmpty(value)) return "anonymous";
+            // Strip control characters: the value is written to the audit table and to logs.
+            var value = new string((accessor.HttpContext?.Request.Headers[HeaderName].ToString() ?? string.Empty)
+                .Where(c => !char.IsControl(c)).ToArray()).Trim();
+            if (value.Length == 0) return "anonymous";
             return value.Length > MaxLength ? value[..MaxLength] : value;
         }
     }
