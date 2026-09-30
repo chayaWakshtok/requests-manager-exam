@@ -1,0 +1,30 @@
+=== P1: list, default screen (ORDER BY CreatedAt DESC, Id DESC, page 1) ===
+rows=    20   |--Top(OFFSET EXPRESSION:(CONVERT_IMPLICIT(bigint,[@o],0)),TOP EXPRESSION:(CONVERT_IMPLICIT(bigint,[@n],0)))
+rows=    20        |--Nested Loops(Inner Join, OUTER REFERENCES:([r].[Id], [Expr1003]) WITH ORDERED PREFETCH)
+rows=    20             |--Index Scan(OBJECT:([Requests].[IX_Requests_CreatedAt] AS [r]), ORDERED BACKWARD)
+rows=    20             |--Clustered Index Seek(OBJECT:([Requests].[PK_Requests] AS [r]), SEEK:([r].[Id]=[Requests].[Id] as [r].[Id]) LOOKUP ORDERED FORWARD)
+
+=== P2: list, organization prefix + date range ===
+rows=    20   |--Top(OFFSET EXPRESSION:(CONVERT_IMPLICIT(bigint,[@o],0)),TOP EXPRESSION:(CONVERT_IMPLICIT(bigint,[@n],0)))
+rows=    20        |--Nested Loops(Inner Join, OUTER REFERENCES:([r].[Id], [Expr1009]) WITH ORDERED PREFETCH)
+rows=    70             |--Nested Loops(Inner Join, OUTER REFERENCES:([Expr1006], [Expr1007], [Expr1008]))
+rows=    20             |--Clustered Index Seek(OBJECT:([Requests].[PK_Requests] AS [r]), SEEK:([r].[Id]=[Requests].[Id] as [r].[Id]),  WHERE:([Requests].[CreatedAt] as [r].[CreatedAt]>=[@from] AND [Requests].[Cr
+
+=== P3: free-text search count ===
+rows=     0   |--Compute Scalar(
+rows=     1        |--Stream Aggregate(
+rows=  5042             |--Nested Loops(Inner Join, OUTER REFERENCES:([Expr1007], [Expr1008], [Expr1009]))
+rows=     0                  |--Compute Scalar(
+rows=  5042                  |--Index Seek(OBJECT:([Requests].[IX_Requests_SearchText] AS [r]), SEEK:([r].[SearchText] > [Expr1007] AND [r].[SearchText] < [Expr1008]),  WHERE:([Requests].[SearchText] as [r].[Sear
+
+=== P4: stats, open by priority ===
+rows=     0   |--Compute Scalar(
+rows=     3        |--Hash Match(Aggregate, HASH:([r].[Priority]) 
+rows= 32027             |--Index Seek(OBJECT:([Requests].[IX_Requests_Status_CreatedAt] AS [r]), SEEK:([r].[Status] < (3) OR [r].[Status] > (3)) ORDERED FORWARD)
+
+=== P5: stats, top organizations ===
+rows=     5   |--Top(TOP EXPRESSION:(CONVERT_IMPLICIT(bigint,[@n],0)))
+rows=     5        |--Sort(ORDER BY:([Expr1001] DESC, [r].[OrganizationName] ASC))
+rows=     0             |--Compute Scalar(
+rows=   500                  |--Stream Aggregate(GROUP BY:([r].[OrganizationName]) 
+rows= 32027                       |--Index Scan(OBJECT:([Requests].[IX_Requests_OrganizationName] AS [r]),  WHERE:([Requests].[Status] as [r].[Status]<>(3)) ORDERED FORWARD)

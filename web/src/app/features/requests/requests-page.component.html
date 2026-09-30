@@ -1,0 +1,68 @@
+<section class="card">
+  <app-stats-panel [state]="store.stats()" />
+</section>
+
+<section class="card">
+  <app-request-filters (searchChange)="store.setSearch($event)" (filtersChange)="store.setFilters($event)" />
+</section>
+
+@if (store.notice(); as notice) {
+  <div class="notice" [attr.data-kind]="notice.kind" role="status">
+    {{ notice.text }}
+    <button type="button" (click)="store.notice.set(null)" aria-label="סגירה">✕</button>
+  </div>
+}
+
+<div class="layout">
+  <section class="card grow">
+    <app-bulk-bar
+      [selectedCount]="store.selection().size"
+      [result]="store.bulkResult()"
+      (apply)="store.bulkUpdate($event)"
+      (clearSelection)="store.clearSelection()" />
+
+    @let list = store.list();
+    @let query = store.query();
+
+    @if (list.error) {
+      <div class="state error">
+        טעינת הפניות נכשלה: {{ list.error }}
+        <button type="button" (click)="store.refresh()">נסה שוב</button>
+      </div>
+    } @else if (list.data; as page) {
+      <div class="table-wrap" [class.loading]="list.loading">
+        @if (page.items.length === 0) {
+          <div class="state">לא נמצאו פניות התואמות לחיפוש.</div>
+        } @else {
+          <app-requests-table
+            [rows]="page.items"
+            [sortBy]="query.sortBy"
+            [sortDir]="query.sortDir"
+            [selectedIds]="selectedIds()"
+            [busyIds]="store.busyIds()"
+            (sortChange)="store.toggleSort($event)"
+            (statusChange)="store.updateStatus($event.row, $event.status)"
+            (showHistory)="store.showHistory($event.id)"
+            (toggleSelect)="store.toggleSelected($event)"
+            (selectAll)="store.setAllSelected(page.items, $event)" />
+        }
+        @if (list.loading) {
+          <div class="spinner" aria-label="טוען"></div>
+        }
+      </div>
+      <app-paginator
+        [page]="page.page"
+        [pageSize]="page.pageSize"
+        [totalPages]="page.totalPages"
+        [totalCount]="page.totalCount"
+        (pageChange)="store.setPage($event)"
+        (pageSizeChange)="store.setPageSize($event)" />
+    } @else if (list.loading) {
+      <div class="state">טוען פניות...</div>
+    }
+  </section>
+
+  @if (store.historyRequestId(); as historyId) {
+    <app-history-panel class="side" [requestId]="historyId" [state]="store.history()" (closed)="store.showHistory(null)" />
+  }
+</div>

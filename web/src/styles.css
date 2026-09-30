@@ -1,0 +1,5 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; background: #f3f4f6; color: #111827; }
+button { padding: 6px 12px; border: 1px solid #c8ccd4; border-radius: 4px; background: #fff; cursor: pointer; font: inherit; }
+button:disabled { opacity: .5; cursor: default; }
+select, input { font: inherit; }
