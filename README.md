@@ -51,6 +51,26 @@ npm start
 # http://localhost:4200
 ```
 
+### אפשרות ג: בלי Docker בכלל
+
+צריך SQL Server מקומי: SQL Server Express / Developer, או LocalDB שמגיע עם Visual Studio. מגדירים את מחרוזת החיבור דרך משתנה סביבה, בלי לשנות קבצים:
+
+```powershell
+# PowerShell, עם LocalDB
+cd backend
+$env:ConnectionStrings__Default = "Server=(localdb)\MSSQLLocalDB;Database=RequestsManager;Trusted_Connection=True;TrustServerCertificate=True"
+dotnet run --project src/RequestsManager.Api
+```
+
+(עם SQL Server Express: `Server=.\SQLEXPRESS;...` באותו פורמט.) בעלייה הראשונה נוצרים מסד הנתונים, הטבלאות ו-100,000 הפניות. את Angular מריצים כמו באפשרות ב.
+
+בדיקות בלי Docker: מפנים את בדיקות ה-Integration לשרת המקומי (נוצר מסד נתונים נפרד לכל הרצה):
+
+```powershell
+$env:TEST_SQL_CONNECTION = "Server=(localdb)\MSSQLLocalDB;Trusted_Connection=True;TrustServerCertificate=True"
+dotnet test
+```
+
 ### יצירה מחדש של נתוני הבדיקה
 
 ```bash
