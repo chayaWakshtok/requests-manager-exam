@@ -1,6 +1,9 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CountByKey, LoadState, PRIORITY_LABELS, RequestStats, STATUS_LABELS } from '../../../../core/models/request.models';
+import { LoadState } from '../../../../core/models/load-state.model';
+import { PRIORITY_LABELS } from '../../../../core/models/request-priority.model';
+import { CountByKey, RequestStats } from '../../../../core/models/request-stats.model';
+import { STATUS_LABELS } from '../../../../core/models/request-status.model';
 
 @Component({
   selector: 'app-stats-panel',

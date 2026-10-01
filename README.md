@@ -44,7 +44,7 @@ cd backend
 dotnet run --project src/RequestsManager.Api
 # http://localhost:5080/swagger
 
-# 3. Angular (בחלון נוסף; ה-Proxy מפנה את /api ל-localhost:5080)
+# 3. Angular (בחלון נוסף; כתובת ה-API מוגדרת ב-src/environments/environment.development.ts)
 cd web
 npm ci
 npm start

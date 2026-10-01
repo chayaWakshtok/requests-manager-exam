@@ -17,18 +17,14 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import {
-  BulkUpdateResult,
-  LoadState,
-  PagedResult,
-  RequestFilters,
-  RequestQuery,
-  RequestStats,
-  RequestStatus,
-  ServiceRequest,
-  SortField,
-  StatusHistoryEntry,
-} from '../../core/models/request.models';
+import { BulkUpdateResult } from '../../core/models/bulk-update-result.model';
+import { LoadState } from '../../core/models/load-state.model';
+import { PagedResult } from '../../core/models/paged-result.model';
+import { RequestFilters, RequestQuery, SortField } from '../../core/models/request-query.model';
+import { RequestStats } from '../../core/models/request-stats.model';
+import { RequestStatus } from '../../core/models/request-status.model';
+import { ServiceRequest } from '../../core/models/service-request.model';
+import { StatusHistoryEntry } from '../../core/models/status-history-entry.model';
 import { toErrorMessage } from '../../core/services/api-error';
 import { RequestsApiService } from '../../core/services/requests-api.service';
 

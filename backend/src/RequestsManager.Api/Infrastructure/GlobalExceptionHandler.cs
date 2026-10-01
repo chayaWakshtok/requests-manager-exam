@@ -5,7 +5,6 @@ using RequestsManager.Domain.Exceptions;
 
 namespace RequestsManager.Api.Infrastructure;
 
-/// <summary>Maps exceptions to RFC 7807 Problem Details. Unexpected errors never leak internals.</summary>
 public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetails, ILogger<GlobalExceptionHandler> logger)
     : IExceptionHandler
 {

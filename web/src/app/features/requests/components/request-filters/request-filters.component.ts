@@ -2,15 +2,9 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
-import {
-  PRIORITIES,
-  PRIORITY_LABELS,
-  RequestFilters,
-  RequestPriority,
-  RequestStatus,
-  STATUSES,
-  STATUS_LABELS,
-} from '../../../../core/models/request.models';
+import { PRIORITIES, PRIORITY_LABELS, RequestPriority } from '../../../../core/models/request-priority.model';
+import { RequestFilters } from '../../../../core/models/request-query.model';
+import { RequestStatus, STATUSES, STATUS_LABELS } from '../../../../core/models/request-status.model';
 
 /** Presentational: owns the form, emits search text and filter values. Knows nothing about HTTP. */
 @Component({

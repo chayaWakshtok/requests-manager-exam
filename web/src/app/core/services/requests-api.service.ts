@@ -1,21 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  BulkUpdateResult,
-  PagedResult,
-  RequestQuery,
-  RequestStats,
-  RequestStatus,
-  ServiceRequest,
-  StatusHistoryEntry,
-} from '../models/request.models';
+import { environment } from '../../../environments/environment';
+import { BulkUpdateResult } from '../models/bulk-update-result.model';
+import { PagedResult } from '../models/paged-result.model';
+import { RequestQuery } from '../models/request-query.model';
+import { RequestStats } from '../models/request-stats.model';
+import { RequestStatus } from '../models/request-status.model';
+import { ServiceRequest } from '../models/service-request.model';
+import { StatusHistoryEntry } from '../models/status-history-entry.model';
 
 /** The only place that knows the API's URLs and parameter names. */
 @Injectable({ providedIn: 'root' })
 export class RequestsApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/requests';
+  private readonly baseUrl = `${environment.apiUrl}/api/requests`;
 
   search(query: RequestQuery): Observable<PagedResult<ServiceRequest>> {
     let params = new HttpParams()

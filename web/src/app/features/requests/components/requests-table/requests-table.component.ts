@@ -1,14 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import {
-  NEXT_STATUSES,
-  PRIORITY_LABELS,
-  RequestStatus,
-  STATUS_LABELS,
-  ServiceRequest,
-  SortDir,
-  SortField,
-} from '../../../../core/models/request.models';
+import { PRIORITY_LABELS } from '../../../../core/models/request-priority.model';
+import { SortDir, SortField } from '../../../../core/models/request-query.model';
+import { NEXT_STATUSES, RequestStatus, STATUS_LABELS } from '../../../../core/models/request-status.model';
+import { ServiceRequest } from '../../../../core/models/service-request.model';
 
 /** Presentational table: renders one server page and emits user intents. */
 @Component({

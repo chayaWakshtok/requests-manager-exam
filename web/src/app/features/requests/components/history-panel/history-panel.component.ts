@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { LoadState, STATUS_LABELS, StatusHistoryEntry } from '../../../../core/models/request.models';
+import { LoadState } from '../../../../core/models/load-state.model';
+import { STATUS_LABELS } from '../../../../core/models/request-status.model';
+import { StatusHistoryEntry } from '../../../../core/models/status-history-entry.model';
 
 @Component({
   selector: 'app-history-panel',

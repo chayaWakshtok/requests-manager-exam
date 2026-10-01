@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { BulkUpdateResult, RequestStatus, STATUSES, STATUS_LABELS } from '../../../../core/models/request.models';
+import { BulkUpdateResult } from '../../../../core/models/bulk-update-result.model';
+import { RequestStatus, STATUSES, STATUS_LABELS } from '../../../../core/models/request-status.model';
 
 @Component({
   selector: 'app-bulk-bar',
