@@ -10,69 +10,15 @@ import {
   RequestStatus,
   STATUSES,
   STATUS_LABELS,
-} from '../../../core/models/request.models';
+} from '../../../../core/models/request.models';
 
 /** Presentational: owns the form, emits search text and filter values. Knows nothing about HTTP. */
 @Component({
   selector: 'app-request-filters',
   imports: [ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <form class="filters" [formGroup]="form" (ngSubmit)="$event.preventDefault()">
-      <label class="search">
-        חיפוש (כותרת / ארגון)
-        <input type="search" [formControl]="search" placeholder="לפחות 2 תווים..." />
-      </label>
-
-      <label>
-        סטטוס
-        <select formControlName="status">
-          <option value="">הכל</option>
-          @for (s of statuses; track s) {
-            <option [value]="s">{{ statusLabels[s] }}</option>
-          }
-        </select>
-      </label>
-
-      <label>
-        עדיפות
-        <select formControlName="priority">
-          <option value="">הכל</option>
-          @for (p of priorities; track p) {
-            <option [value]="p">{{ priorityLabels[p] }}</option>
-          }
-        </select>
-      </label>
-
-      <label>
-        ארגון (מתחיל ב...)
-        <input formControlName="organizationName" />
-      </label>
-
-      <label>
-        מטפל
-        <input formControlName="assignedTo" placeholder="agent07" />
-      </label>
-
-      <label>
-        מתאריך
-        <input type="date" formControlName="createdFrom" />
-      </label>
-
-      <label>
-        עד תאריך
-        <input type="date" formControlName="createdTo" />
-      </label>
-
-      <button type="button" (click)="clear()">ניקוי</button>
-    </form>
-  `,
-  styles: `
-    .filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
-    label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
-    .search { flex: 1 1 240px; }
-    input, select { padding: 6px 8px; border: 1px solid #c8ccd4; border-radius: 4px; font: inherit; }
-  `,
+  templateUrl: './request-filters.component.html',
+  styleUrl: './request-filters.component.scss',
 })
 export class RequestFiltersComponent {
   readonly searchChange = output<string>();

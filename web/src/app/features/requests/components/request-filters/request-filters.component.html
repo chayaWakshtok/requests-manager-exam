@@ -1,0 +1,48 @@
+<form class="filters" [formGroup]="form" (ngSubmit)="$event.preventDefault()">
+  <label class="search">
+    חיפוש (כותרת / ארגון)
+    <input type="search" [formControl]="search" placeholder="לפחות 2 תווים..." />
+  </label>
+
+  <label>
+    סטטוס
+    <select formControlName="status">
+      <option value="">הכל</option>
+      @for (s of statuses; track s) {
+        <option [value]="s">{{ statusLabels[s] }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    עדיפות
+    <select formControlName="priority">
+      <option value="">הכל</option>
+      @for (p of priorities; track p) {
+        <option [value]="p">{{ priorityLabels[p] }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    ארגון (מתחיל ב...)
+    <input formControlName="organizationName" />
+  </label>
+
+  <label>
+    מטפל
+    <input formControlName="assignedTo" placeholder="agent07" />
+  </label>
+
+  <label>
+    מתאריך
+    <input type="date" formControlName="createdFrom" />
+  </label>
+
+  <label>
+    עד תאריך
+    <input type="date" formControlName="createdTo" />
+  </label>
+
+  <button type="button" (click)="clear()">ניקוי</button>
+</form>

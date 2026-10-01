@@ -1,0 +1,15 @@
+<div class="pager">
+  <button type="button" [disabled]="page() <= 1" (click)="pageChange.emit(1)">ראשון</button>
+  <button type="button" [disabled]="page() <= 1" (click)="pageChange.emit(page() - 1)">הקודם</button>
+  <span>עמוד {{ page() }} מתוך {{ totalPages() || 1 }} ({{ totalCount().toLocaleString() }} פניות)</span>
+  <button type="button" [disabled]="page() >= totalPages()" (click)="pageChange.emit(page() + 1)">הבא</button>
+  <button type="button" [disabled]="page() >= totalPages()" (click)="pageChange.emit(totalPages())">אחרון</button>
+  <label>
+    בעמוד
+    <select [value]="pageSize()" (change)="pageSizeChange.emit(+$any($event.target).value)">
+      @for (size of sizes; track size) {
+        <option [value]="size" [selected]="size === pageSize()">{{ size }}</option>
+      }
+    </select>
+  </label>
+</div>

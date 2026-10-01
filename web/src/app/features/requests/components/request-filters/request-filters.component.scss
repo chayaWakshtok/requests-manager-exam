@@ -1,0 +1,4 @@
+.filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.search { flex: 1 1 240px; }
+input, select { padding: 6px 8px; border: 1px solid #c8ccd4; border-radius: 4px; font: inherit; }

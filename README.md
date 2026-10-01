@@ -106,8 +106,9 @@ web/src/app/
   core/services                     RequestsApiService (HTTP בלבד), Interceptor למשתמש, מיפוי שגיאות
   features/requests/
     requests.store.ts               State של המסך: RxJS, debounce, switchMap, טיפול ב-409
-    requests-page.component.*       Container: מחבר Store לקומפוננטות
-    components/                     Presentational: פילטרים, טבלה, דפדוף, Aggregations, היסטוריה, Bulk
+    requests-page/                  Container: מחבר Store לקומפוננטות
+    components/<name>/              Presentational: פילטרים, טבלה, דפדוף, Aggregations, היסטוריה, Bulk
+                                    (כל קומפוננטה בתיקייה משלה: ts + html + scss)
 docs/                               ביצועים ותוכנית עבודה
 ```
 

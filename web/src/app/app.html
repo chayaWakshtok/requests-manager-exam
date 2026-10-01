@@ -1,0 +1,10 @@
+<header class="top">
+  <h1>ניהול פניות</h1>
+  <label>
+    משתמש נוכחי
+    <input [value]="user.name()" (change)="user.setName($any($event.target).value)" />
+  </label>
+</header>
+<main>
+  <app-requests-page />
+</main>

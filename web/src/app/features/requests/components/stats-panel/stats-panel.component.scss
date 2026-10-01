@@ -1,0 +1,7 @@
+.stats { display: flex; gap: 24px; flex-wrap: wrap; align-items: start; }
+.stats.dim { opacity: .6; }
+section { min-width: 200px; }
+h3 { font-size: 14px; margin: 0 0 6px; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; padding: 2px 0; }
+.muted { color: #8a8f98; }
+.error { color: #b91c1c; }

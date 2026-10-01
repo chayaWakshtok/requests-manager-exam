@@ -1,0 +1,14 @@
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 6px 8px; border-bottom: 1px solid #e3e6eb; text-align: start; }
+th { background: #f5f6f8; font-weight: 600; white-space: nowrap; }
+.narrow { width: 1%; }
+tr.selected { background: #eef4ff; }
+.sort { all: unset; cursor: pointer; }
+.link { all: unset; cursor: pointer; color: #1a56db; }
+.muted { color: #8a8f98; }
+.badge { padding: 2px 8px; border-radius: 10px; background: #eceff3; font-size: 12px; }
+.badge[data-status='New'] { background: #e0ecff; }
+.badge[data-status='InProgress'] { background: #fff4d6; }
+.badge[data-status='Waiting'] { background: #f3e8ff; }
+.badge[data-status='Completed'] { background: #dcfce7; }
+.prio[data-priority='High'] { color: #b91c1c; font-weight: 600; }

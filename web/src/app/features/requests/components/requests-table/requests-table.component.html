@@ -1,0 +1,52 @@
+<table>
+  <thead>
+    <tr>
+      <th class="narrow">
+        <input type="checkbox" [checked]="allSelected()" (change)="selectAll.emit($any($event.target).checked)"
+               aria-label="בחירת כל הדף" />
+      </th>
+      <th class="narrow">#</th>
+      @for (col of columns; track col.field) {
+        <th>
+          <button class="sort" type="button" (click)="sortChange.emit(col.field)">
+            {{ col.label }}
+            @if (sortBy() === col.field) {
+              <span aria-hidden="true">{{ sortDir() === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </button>
+        </th>
+      }
+      <th>מטפל</th>
+      <th>שינוי סטטוס</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of rows(); track row.id) {
+      <tr [class.selected]="selectedIds().has(row.id)">
+        <td><input type="checkbox" [checked]="selectedIds().has(row.id)" (change)="toggleSelect.emit(row)" /></td>
+        <td>{{ row.id }}</td>
+        <td>{{ row.title }}</td>
+        <td>{{ row.organizationName }}</td>
+        <td><span class="badge" [attr.data-status]="row.status">{{ statusLabels[row.status] }}</span></td>
+        <td><span class="prio" [attr.data-priority]="row.priority">{{ priorityLabels[row.priority] }}</span></td>
+        <td>{{ row.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ row.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ row.assignedTo ?? '—' }}</td>
+        <td>
+          @if (nextStatuses[row.status].length) {
+            <select [disabled]="busyIds().has(row.id)" (change)="onStatusSelected(row, $any($event.target))">
+              <option value="">בחירה...</option>
+              @for (s of nextStatuses[row.status]; track s) {
+                <option [value]="s">{{ statusLabels[s] }}</option>
+              }
+            </select>
+          } @else {
+            <span class="muted">סופי</span>
+          }
+        </td>
+        <td><button type="button" class="link" (click)="showHistory.emit(row)">היסטוריה</button></td>
+      </tr>
+    }
+  </tbody>
+</table>
