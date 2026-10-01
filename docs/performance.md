@@ -77,6 +77,7 @@ Top 5 <- Sort <- Stream Aggregate BY OrganizationName     rows=500
 | `PK_Requests (Id)` clustered | שליפה/עדכון לפי Id, מפתח שובר-שוויון בדפדוף | |
 | `IX_Requests_Status_CreatedAt (Status, CreatedAt) INCLUDE (Priority)` | סינון לפי סטטוס + מיון לפי תאריך, ספירה לפי סטטוס ולפי עדיפות | ה-INCLUDE הופך את ה-Aggregations ל-Covering |
 | `IX_Requests_CreatedAt (CreatedAt)` | מסך ברירת המחדל וטווח תאריכים | עולה בכוונה, ראו ממצא למעלה |
+| `IX_Requests_Priority_CreatedAt (Priority, CreatedAt)` | מיון לפי עדיפות | מיון לפי סטטוס/עדיפות משתמש ב-CreatedAt כמפתח משני, כך שהאינדקס מחזיר את העמוד בלי למיין את כל הטבלה (2,238 → 848 קריאות, ללא Sort) |
 | `IX_Requests_OrganizationName (OrganizationName) INCLUDE (Status)` | סינון "מתחיל ב-" (`LIKE 'x%'` הוא Seek), מיון לפי ארגון, Top ארגונים | |
 | `IX_Requests_AssignedTo_Status (AssignedTo, Status)` | "הפניות שלי" עם סטטוס | Q4: מ-2,131 ל-13 reads |
 | `IX_Requests_SearchText (SearchText)` | חיפוש חופשי | ראו Bottleneck |

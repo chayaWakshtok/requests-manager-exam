@@ -48,6 +48,9 @@ public sealed class ServiceRequestConfiguration : IEntityTypeConfiguration<Servi
         // Unfiltered list sorted by date, and created-at range filters.
         b.HasIndex(r => r.CreatedAt).HasDatabaseName("IX_Requests_CreatedAt");
 
+        // Sort by priority (then CreatedAt, Id) without a full sort.
+        b.HasIndex(r => new { r.Priority, r.CreatedAt }).HasDatabaseName("IX_Requests_Priority_CreatedAt");
+
         // Organization prefix filter / sort, and the "top organizations" aggregation (INCLUDE Status).
         b.HasIndex(r => r.OrganizationName)
             .IncludeProperties(r => r.Status)

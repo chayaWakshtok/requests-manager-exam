@@ -103,8 +103,10 @@ public sealed class RequestQueryService(IAppDbContext db) : IRequestQueryService
         IOrderedQueryable<ServiceRequest> ordered = sortBy.ToLowerInvariant() switch
         {
             "updatedat" => desc ? q.OrderByDescending(r => r.UpdatedAt) : q.OrderBy(r => r.UpdatedAt),
-            "priority" => desc ? q.OrderByDescending(r => r.Priority) : q.OrderBy(r => r.Priority),
-            "status" => desc ? q.OrderByDescending(r => r.Status) : q.OrderBy(r => r.Status),
+            // Low-cardinality columns get CreatedAt as a secondary key, so the ORDER BY matches the
+            // (Status, CreatedAt) / (Priority, CreatedAt) indexes and SQL reads only the page instead of sorting the table.
+            "priority" => desc ? q.OrderByDescending(r => r.Priority).ThenByDescending(r => r.CreatedAt) : q.OrderBy(r => r.Priority).ThenBy(r => r.CreatedAt),
+            "status" => desc ? q.OrderByDescending(r => r.Status).ThenByDescending(r => r.CreatedAt) : q.OrderBy(r => r.Status).ThenBy(r => r.CreatedAt),
             "title" => desc ? q.OrderByDescending(r => r.Title) : q.OrderBy(r => r.Title),
             "organizationname" => desc ? q.OrderByDescending(r => r.OrganizationName) : q.OrderBy(r => r.OrganizationName),
             _ => desc ? q.OrderByDescending(r => r.CreatedAt) : q.OrderBy(r => r.CreatedAt)
