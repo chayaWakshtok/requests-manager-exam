@@ -1,11 +1,16 @@
 <form class="filters" [formGroup]="form" (ngSubmit)="$event.preventDefault()">
-  <label class="search">
-    חיפוש (כותרת / ארגון)
-    <input type="search" [formControl]="search" placeholder="לפחות 2 תווים..." />
+  <label class="field search">
+    <span>חיפוש</span>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+      </svg>
+      <input type="search" [formControl]="search" placeholder="חיפוש בכותרת או בשם הארגון..." />
+    </div>
   </label>
 
-  <label>
-    סטטוס
+  <label class="field">
+    <span>סטטוס</span>
     <select formControlName="status">
       <option value="">הכל</option>
       @for (s of statuses; track s) {
@@ -14,8 +19,8 @@
     </select>
   </label>
 
-  <label>
-    עדיפות
+  <label class="field">
+    <span>עדיפות</span>
     <select formControlName="priority">
       <option value="">הכל</option>
       @for (p of priorities; track p) {
@@ -24,25 +29,25 @@
     </select>
   </label>
 
-  <label>
-    ארגון (מתחיל ב...)
-    <input formControlName="organizationName" />
+  <label class="field">
+    <span>ארגון מתחיל ב...</span>
+    <input formControlName="organizationName" placeholder="Acme" />
   </label>
 
-  <label>
-    מטפל
+  <label class="field">
+    <span>מטפל</span>
     <input formControlName="assignedTo" placeholder="agent07" />
   </label>
 
-  <label>
-    מתאריך
+  <label class="field">
+    <span>מתאריך</span>
     <input type="date" formControlName="createdFrom" />
   </label>
 
-  <label>
-    עד תאריך
+  <label class="field">
+    <span>עד תאריך</span>
     <input type="date" formControlName="createdTo" />
   </label>
 
-  <button type="button" (click)="clear()">ניקוי</button>
+  <button type="button" class="ghost clear" (click)="clear()">ניקוי סינון</button>
 </form>

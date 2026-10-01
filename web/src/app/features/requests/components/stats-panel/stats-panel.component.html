@@ -1,28 +1,54 @@
 @let s = state();
 @if (s.error) {
-  <div class="error">טעינת הנתונים המסכמים נכשלה: {{ s.error }}</div>
+  <div class="card error">טעינת הנתונים המסכמים נכשלה: {{ s.error }}</div>
 } @else if (s.data; as stats) {
   <div class="stats" [class.dim]="s.loading">
-    <section>
-      <h3>לפי סטטוס (סה״כ {{ stats.totalCount.toLocaleString() }})</h3>
+    <div class="tiles">
+      <div class="tile total">
+        <span class="label">סה״כ פניות</span>
+        <span class="value">{{ stats.totalCount | number }}</span>
+        <span class="hint">עודכן ב-{{ stats.generatedAt | date: 'HH:mm:ss' }}</span>
+      </div>
       @for (x of stats.byStatus; track x.key) {
-        <div class="row"><span>{{ statusLabels[x.key] }}</span><b>{{ x.count.toLocaleString() }}</b></div>
+        <div class="tile" [attr.data-status]="x.key">
+          <span class="label">{{ statusLabels[x.key] }}</span>
+          <span class="value">{{ x.count | number }}</span>
+          <div class="bar"><span [style.width.%]="percent(x.count, stats.totalCount)"></span></div>
+          <span class="hint">{{ percent(x.count, stats.totalCount) | number: '1.0-1' }}% מכלל הפניות</span>
+        </div>
       }
-    </section>
-    <section>
-      <h3>פתוחות לפי עדיפות</h3>
-      @for (x of stats.openByPriority; track x.key) {
-        <div class="row"><span>{{ priorityLabels[x.key] }}</span><b>{{ x.count.toLocaleString() }}</b></div>
-      }
-    </section>
-    <section>
-      <h3>ארגונים עם הכי הרבה פניות פתוחות</h3>
-      @for (x of stats.topOrganizationsByOpenRequests; track x.key) {
-        <div class="row"><span>{{ x.key }}</span><b>{{ x.count }}</b></div>
-      }
-    </section>
-    <small class="muted">חושב ב-{{ stats.generatedAt | date: 'HH:mm:ss' }}</small>
+    </div>
+
+    <div class="breakdowns">
+      <section class="card breakdown">
+        <h3>פניות פתוחות לפי עדיפות</h3>
+        @let openTotal = sum(stats.openByPriority);
+        @for (x of stats.openByPriority; track x.key) {
+          <div class="row">
+            <span class="pill" [attr.data-priority]="x.key">{{ priorityLabels[x.key] }}</span>
+            <div class="bar" [attr.data-priority]="x.key"><span [style.width.%]="percent(x.count, openTotal)"></span></div>
+            <b>{{ x.count | number }}</b>
+          </div>
+        }
+      </section>
+
+      <section class="card breakdown">
+        <h3>ארגונים עם הכי הרבה פניות פתוחות</h3>
+        @let top = max(stats.topOrganizationsByOpenRequests);
+        @for (x of stats.topOrganizationsByOpenRequests; track x.key; let i = $index) {
+          <div class="row">
+            <span class="org"><span class="rank">{{ i + 1 }}</span>{{ x.key }}</span>
+            <div class="bar org-bar"><span [style.width.%]="percent(x.count, top)"></span></div>
+            <b>{{ x.count }}</b>
+          </div>
+        }
+      </section>
+    </div>
   </div>
 } @else if (s.loading) {
-  <div class="muted">טוען נתונים מסכמים...</div>
+  <div class="tiles">
+    @for (i of [1, 2, 3, 4, 5]; track i) {
+      <div class="tile skeleton"></div>
+    }
+  </div>
 }

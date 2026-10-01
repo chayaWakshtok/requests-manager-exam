@@ -8,10 +8,10 @@
       <th class="narrow">#</th>
       @for (col of columns; track col.field) {
         <th>
-          <button class="sort" type="button" (click)="sortChange.emit(col.field)">
+          <button class="sort" type="button" [class.active]="sortBy() === col.field" (click)="sortChange.emit(col.field)">
             {{ col.label }}
             @if (sortBy() === col.field) {
-              <span aria-hidden="true">{{ sortDir() === 'asc' ? '▲' : '▼' }}</span>
+              <span class="arrow" aria-hidden="true">{{ sortDir() === 'asc' ? '↑' : '↓' }}</span>
             }
           </button>
         </th>
@@ -25,27 +25,38 @@
     @for (row of rows(); track row.id) {
       <tr [class.selected]="selectedIds().has(row.id)">
         <td><input type="checkbox" [checked]="selectedIds().has(row.id)" (change)="toggleSelect.emit(row)" /></td>
-        <td>{{ row.id }}</td>
-        <td>{{ row.title }}</td>
-        <td>{{ row.organizationName }}</td>
-        <td><span class="badge" [attr.data-status]="row.status">{{ statusLabels[row.status] }}</span></td>
-        <td><span class="prio" [attr.data-priority]="row.priority">{{ priorityLabels[row.priority] }}</span></td>
-        <td>{{ row.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-        <td>{{ row.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-        <td>{{ row.assignedTo ?? '—' }}</td>
+        <td class="id">#{{ row.id }}</td>
+        <td class="title">{{ row.title }}</td>
+        <td class="org">{{ row.organizationName }}</td>
+        <td><span class="pill" [attr.data-status]="row.status">{{ statusLabels[row.status] }}</span></td>
+        <td><span class="pill" [attr.data-priority]="row.priority">{{ priorityLabels[row.priority] }}</span></td>
+        <td class="date">{{ row.createdAt | date: 'dd/MM/yy' }}<small>{{ row.createdAt | date: 'HH:mm' }}</small></td>
+        <td class="date">{{ row.updatedAt | date: 'dd/MM/yy' }}<small>{{ row.updatedAt | date: 'HH:mm' }}</small></td>
+        <td>
+              @if (row.assignedTo) {
+                <span class="assignee"><span class="avatar">{{ row.assignedTo.charAt(0).toUpperCase() }}</span>{{ row.assignedTo }}</span>
+              } @else {
+                <span class="muted">לא משויך</span>
+              }
+            </td>
         <td>
           @if (nextStatuses[row.status].length) {
-            <select [disabled]="busyIds().has(row.id)" (change)="onStatusSelected(row, $any($event.target))">
-              <option value="">בחירה...</option>
+            <select class="status-select" [disabled]="busyIds().has(row.id)" (change)="onStatusSelected(row, $any($event.target))">
+              <option value="">העבר ל...</option>
               @for (s of nextStatuses[row.status]; track s) {
                 <option [value]="s">{{ statusLabels[s] }}</option>
               }
             </select>
           } @else {
-            <span class="muted">סופי</span>
+            <span class="final">סטטוס סופי</span>
           }
         </td>
-        <td><button type="button" class="link" (click)="showHistory.emit(row)">היסטוריה</button></td>
+        <td>
+              <button type="button" class="history-btn" (click)="showHistory.emit(row)" title="היסטוריית שינויים">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5M12 7v5l3 2" /></svg>
+                היסטוריה
+              </button>
+            </td>
       </tr>
     }
   </tbody>

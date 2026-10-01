@@ -1,1 +1,25 @@
-.pager { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  border-end-start-radius: var(--radius);
+  border-end-end-radius: var(--radius);
+}
+
+.summary { color: var(--text-2); b { color: var(--text); font-weight: 600; } }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  button { min-width: 34px; font-size: 16px; }
+}
+
+.current { padding: 0 10px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.size { display: flex; align-items: center; gap: 8px; color: var(--text-2); select { padding: 6px 10px; } }

@@ -1,5 +1,116 @@
+// Design tokens + base elements shared by every component.
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #f8f9fc;
+  --border: #e4e7ef;
+  --text: #1b2033;
+  --text-2: #5d6478;
+  --text-3: #8b91a3;
+
+  --primary: #4f46e5;
+  --primary-600: #4338ca;
+  --primary-50: #eef0ff;
+
+  --new: #2563eb;        --new-bg: #e6efff;
+  --progress: #d97706;   --progress-bg: #fff3dc;
+  --waiting: #7c3aed;    --waiting-bg: #f1e9ff;
+  --completed: #059669;  --completed-bg: #defaee;
+
+  --high: #dc2626;   --high-bg: #fde8e8;
+  --medium: #ca8a04; --medium-bg: #fdf4d7;
+  --low: #64748b;    --low-bg: #eef1f5;
+
+  --danger: #dc2626;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 4px 16px rgba(16, 24, 40, .06);
+  --shadow-lg: 0 12px 32px rgba(16, 24, 40, .14);
+  --ring: 0 0 0 3px rgba(79, 70, 229, .18);
+}
+
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif; background: #f3f4f6; color: #111827; }
-button { padding: 6px 12px; border: 1px solid #c8ccd4; border-radius: 4px; background: #fff; cursor: pointer; font: inherit; }
-button:disabled { opacity: .5; cursor: default; }
-select, input { font: inherit; }
+
+body {
+  margin: 0;
+  font-family: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; }
+
+button {
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: background .15s, border-color .15s, box-shadow .15s, transform .05s;
+
+  &:hover:not(:disabled) { background: var(--surface-2); border-color: #cfd4e0; }
+  &:active:not(:disabled) { transform: translateY(1px); }
+  &:focus-visible { outline: none; box-shadow: var(--ring); }
+  &:disabled { opacity: .45; cursor: default; }
+
+  &.primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    &:hover:not(:disabled) { background: var(--primary-600); border-color: var(--primary-600); }
+  }
+
+  &.ghost { border-color: transparent; background: transparent; }
+  &.icon { padding: 6px 9px; line-height: 1; }
+}
+
+input, select {
+  font: inherit;
+  color: var(--text);
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  transition: border-color .15s, box-shadow .15s;
+
+  &:focus { outline: none; border-color: var(--primary); box-shadow: var(--ring); }
+}
+
+input[type='checkbox'] { width: 16px; height: 16px; padding: 0; accent-color: var(--primary); cursor: pointer; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.muted { color: var(--text-3); }
+
+// Status / priority pills - used by the table, history and stats.
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  &[data-status='New'] { color: var(--new); background: var(--new-bg); }
+  &[data-status='InProgress'] { color: var(--progress); background: var(--progress-bg); }
+  &[data-status='Waiting'] { color: var(--waiting); background: var(--waiting-bg); }
+  &[data-status='Completed'] { color: var(--completed); background: var(--completed-bg); }
+
+  &[data-priority='High'] { color: var(--high); background: var(--high-bg); }
+  &[data-priority='Medium'] { color: var(--medium); background: var(--medium-bg); }
+  &[data-priority='Low'] { color: var(--low); background: var(--low-bg); }
+}

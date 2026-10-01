@@ -1,2 +1,48 @@
-.bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.result { margin-top: 6px; font-size: 13px; }
+:host { display: block; }
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+
+  &.active { background: var(--primary-50); }
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-2);
+
+  .count {
+    display: grid;
+    place-items: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--text-3);
+  }
+}
+
+.bar.active .count { background: var(--primary); }
+
+.actions { display: flex; align-items: center; gap: 8px; }
+
+.result {
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 13px;
+  background: #fffaf0;
+  border-bottom: 1px solid var(--border);
+
+  summary { cursor: pointer; font-weight: 600; color: var(--progress); }
+  ul { margin: 8px 0 0; padding-inline-start: 20px; columns: 2; }
+}

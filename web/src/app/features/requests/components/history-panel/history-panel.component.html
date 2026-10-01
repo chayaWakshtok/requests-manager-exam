@@ -1,21 +1,28 @@
-<aside>
+<aside class="card">
   <header>
-    <h3>היסטוריית סטטוסים - פנייה {{ requestId() }}</h3>
-    <button type="button" (click)="closed.emit()" aria-label="סגירה">✕</button>
+    <div>
+      <h3>היסטוריית סטטוסים</h3>
+      <span class="sub">פנייה #{{ requestId() }}</span>
+    </div>
+    <button type="button" class="ghost icon" (click)="closed.emit()" aria-label="סגירה">✕</button>
   </header>
   @let s = state();
   @if (s.loading) {
-    <div class="muted">טוען...</div>
+    <div class="empty">טוען...</div>
   } @else if (s.error) {
-    <div class="error">{{ s.error }}</div>
+    <div class="empty error">{{ s.error }}</div>
   } @else if (s.data?.length === 0) {
-    <div class="muted">לא בוצעו שינויי סטטוס בפנייה זו.</div>
+    <div class="empty">עדיין לא בוצעו שינויי סטטוס בפנייה זו.</div>
   } @else {
-    <ol>
+    <ol class="timeline">
       @for (h of s.data; track h.id) {
-        <li>
-          <b>{{ statusLabels[h.previousStatus] }} ← {{ statusLabels[h.newStatus] }}</b>
-          <div class="muted">{{ h.changedAt | date: 'dd/MM/yyyy HH:mm:ss' }} · {{ h.changedBy }}</div>
+        <li [attr.data-status]="h.newStatus">
+          <div class="change">
+            <span class="pill" [attr.data-status]="h.previousStatus">{{ statusLabels[h.previousStatus] }}</span>
+            <span class="arrow">←</span>
+            <span class="pill" [attr.data-status]="h.newStatus">{{ statusLabels[h.newStatus] }}</span>
+          </div>
+          <div class="meta">{{ h.changedBy }} · {{ h.changedAt | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
         </li>
       }
     </ol>

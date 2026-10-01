@@ -1,8 +1,20 @@
 <header class="top">
-  <h1>ניהול פניות</h1>
-  <label>
-    משתמש נוכחי
-    <input [value]="user.name()" (change)="user.setName($any($event.target).value)" />
+  <div class="brand">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v12H5.5L4 17.5z" /><path d="M8 9h8M8 12h5" />
+      </svg>
+    </div>
+    <div>
+      <h1>ניהול פניות</h1>
+      <p>פניות מארגונים ומעסיקים</p>
+    </div>
+  </div>
+
+  <label class="user">
+    <span class="avatar" aria-hidden="true">{{ user.name().charAt(0).toUpperCase() }}</span>
+    <span class="user-label">משתמש נוכחי</span>
+    <input [value]="user.name()" (change)="user.setName($any($event.target).value)" aria-label="משתמש נוכחי" />
   </label>
 </header>
 <main>

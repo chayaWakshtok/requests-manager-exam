@@ -1,21 +1,26 @@
-<div class="bar">
-  <span>נבחרו {{ selectedCount() }} פניות</span>
-  <select #status>
-    @for (s of statuses; track s) {
-      <option [value]="s">{{ labels[s] }}</option>
-    }
-  </select>
-  <button type="button" [disabled]="selectedCount() === 0" (click)="apply.emit($any(status.value))">עדכון לכולן</button>
-  <button type="button" [disabled]="selectedCount() === 0" (click)="clearSelection.emit()">ביטול בחירה</button>
+<div class="bar" [class.active]="selectedCount() > 0">
+  <div class="info">
+    <span class="count">{{ selectedCount() }}</span>
+    <span>{{ selectedCount() === 0 ? 'סמנו פניות בטבלה לעדכון מרובה' : 'פניות נבחרו' }}</span>
+  </div>
+  <div class="actions">
+    <select #status [disabled]="selectedCount() === 0" aria-label="סטטוס חדש">
+      @for (s of statuses; track s) {
+        <option [value]="s">{{ labels[s] }}</option>
+      }
+    </select>
+    <button type="button" class="primary" [disabled]="selectedCount() === 0" (click)="apply.emit($any(status.value))">עדכון לכולן</button>
+    <button type="button" class="ghost" [disabled]="selectedCount() === 0" (click)="clearSelection.emit()">ביטול בחירה</button>
+  </div>
 </div>
 @if (result(); as r) {
   @if (r.failed > 0) {
     <details class="result">
-      <summary>{{ r.failed }} פניות לא עודכנו</summary>
+      <summary>{{ r.failed }} פניות לא עודכנו, לחצו לפירוט</summary>
       <ul>
         @for (item of r.results; track item.id) {
           @if (item.outcome !== 'Updated') {
-            <li>פנייה {{ item.id }}: {{ outcomeLabels[item.outcome] }}</li>
+            <li><b>#{{ item.id }}</b> {{ outcomeLabels[item.outcome] }}</li>
           }
         }
       </ul>
