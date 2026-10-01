@@ -54,14 +54,13 @@ if (app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Swagger is on in every environment so reviewers can explore the API however they start it.
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors();
 app.MapControllers();
+app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 
 app.Run();
 
