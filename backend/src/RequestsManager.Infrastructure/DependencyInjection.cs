@@ -15,7 +15,11 @@ public static class DependencyInjection
                                ?? throw new InvalidOperationException("ConnectionStrings:Default is not configured.");
 
         // DbContext is scoped (one per HTTP request) - the default and the correct lifetime for EF Core.
-        services.AddDbContext<AppDbContext>(o => o.UseSqlServer(connectionString, sql => sql.EnableRetryOnFailure(3)));
+        services.AddDbContext<AppDbContext>(o => o.UseSqlServer(connectionString, sql => sql
+            .EnableRetryOnFailure(3)
+            // Translate small list filters (status/priority) as IN (...) instead of OPENJSON,
+            // so the API also works on LocalDB/Express or databases at compatibility level < 130.
+            .UseCompatibilityLevel(120)));
         services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<DataSeeder>();
 
